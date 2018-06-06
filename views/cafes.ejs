@@ -1,0 +1,237 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .header{
+    background-color: red;
+    height: 100px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    font-size: 28px;
+    color: white;
+    font-family:Verdana;
+    vertical-align:middle;
+    }
+
+    .footer{
+    background-color: red;
+    height: 100px;
+    text-align: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    font-size: 28px;
+    color: white;
+    font-family:Verdana;
+    vertical-align:middle;
+
+    }
+
+    .middleContainer{
+    margin-top: 100px;
+    height: auto;
+    width: 100%;
+	margin-bottom: 100px;
+	display: inline-block;
+    }
+
+    .leftInContainer{
+    width: 10%;
+    float: left;
+    }
+
+    .rightInContainer{
+    float: left;
+    width: 45%;
+    }
+	.rightrightInContainer{
+    float: left;
+    width: 45%;
+	display: none;
+    }
+
+    .menuButton{
+    height: 50px;
+    width: 100%;
+    text-align: center;
+	
+    background-color: ghostwhite;
+    }
+
+
+
+  </style>
+    <title></title>
+	<meta charset="utf-8" />
+	
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+
+<body>
+	<div class="header">
+      Races API
+	</div>
+  <div class="middleContainer">
+    <div class="leftInContainer">
+	<a href="/home">
+        <div class ="menuButton" >
+          Home
+        </div>
+      </a>
+      <a href="/races">
+        <div class ="menuButton" >
+          Races
+        </div>
+      </a>
+      <a href="/cafes">
+        <div class ="menuButton" >
+          Cafes
+        </div>
+      </a>
+      <a href="/home">
+        <div class ="menuButton" >
+          Users
+        </div>
+      </a>
+      <a href="/home">
+        <div class ="menuButton" >
+          Documentatie
+        </div>
+      </a>
+      
+    </div>
+	
+
+    <div class ="rightInContainer">
+		<a href="/cafes/add">
+        <div class ="menuButton" >
+          Add Café
+        </div>
+      </a>
+		<ul id="cafelist">
+			
+		</ul>
+    </div>
+
+	<div class ="rightrightInContainer" id ="rightrightInContainer">
+	<h1 id="cafeHeader">
+	
+	</h1>
+		<form id="cafeEditForm" action="" method="post">
+        <div class="form-group">
+            <label>Name</label>
+            <input id="inputName" type="text" class="form-control" name="name">
+			
+        </div>
+        <button type="submit" class="btn btn-warning btn-lg">Save cafe</button>
+    </form>
+			
+    </div>
+    
+  </div>
+
+  <div class="footer">
+    Races API
+  </div>
+
+</body>
+<!--<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-1.11.1.js"></script>-->
+
+<script>
+				var selectedCafe;
+				$("document").ready(function(){
+					<% for(var i=0; i<cafes.length; i++) {%>
+						var dif = $("<div></div>");
+						dif.append("<%= cafes[i].name %>");
+							var cafedel = $("<button>Delete</button>"); 
+							var cafeedit = $("<button>Edit</button>");
+							
+							cafeedit.click(function(){
+							selectedCafe = "<%= cafes[i]._id %>";
+							$("#rightrightInContainer").css('display', 'inline-block');
+							document.getElementById("inputName").value = "<%= cafes[i].name %>";
+							document.getElementById("cafeHeader").innerHTML = "<%= cafes[i].name %>";
+							document.getElementById("cafeEditForm").action = "/cafes/<%= cafes[i]._id %>";
+
+
+							
+							}); 
+
+							cafedel.click(function(){
+							selectedCafe = "<%= cafes[i]._id %>";
+								$.ajax({
+									type: "DELETE",
+									url: "/cafes/<%= cafes[i]._id %>",
+									success: function(msg){
+										location.reload();
+									}
+								});
+							});
+
+
+
+							dif.append(" ");
+							dif.append(cafedel);
+							dif.append(" ");
+							dif.append(cafeedit);
+							$("#cafelist").append(dif);
+					<% } %>
+				});
+
+
+
+			</script>
+<!--<script>-->
+
+    <!--$(function () {-->
+        <!--console.log("efsd");-->
+        <!--var socket = io.connect('http://localhost:3000');-->
+        <!--socket.on('addedCafe', function(msg){-->
+            <!--console.log("efsd");-->
+            <!--var caf = $(msg);-->
+            <!--var dif = $("<div></div>");-->
+            <!--dif.append( caf.name );-->
+            <!--var cafedel = $("<button>Delete</button>");-->
+            <!--var cafeedit = $("<button>Edit</button>");-->
+
+            <!--cafeedit.click(function(){-->
+                <!--selectedCafe = caf._id;-->
+                <!--$("#rightrightInContainer").css('display', 'inline-block');-->
+                <!--document.getElementById("inputName").value = caf.name;-->
+                <!--document.getElementById("cafeHeader").innerHTML = caf.name;-->
+                <!--document.getElementById("cafeEditForm").action = "/cafes/" + caf._id + "/update"-->
+
+
+
+            <!--});-->
+
+            <!--cafedel.click(function(){-->
+                <!--selectedCafe = caf._id;-->
+                <!--$.ajax({-->
+                    <!--type: "DELETE",-->
+                    <!--url: "/cafes/" + caf._id,-->
+                    <!--success: function(msg){-->
+                        <!--location.reload();-->
+                    <!--}-->
+                <!--});-->
+            <!--});-->
+
+
+
+            <!--dif.append(" ");-->
+            <!--dif.append(cafedel);-->
+            <!--dif.append(" ");-->
+            <!--dif.append(cafeedit);-->
+            <!--$("#cafelist").append(dif);-->
+        <!--});-->
+    <!--});-->
+
+<!--</script>-->
+
+</html>

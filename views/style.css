@@ -1,0 +1,36 @@
+﻿.header{
+     background-color: red;
+     height: 100px;
+     text-align: center;
+     font-size: 28px;
+     color: white;
+     font-family:Verdana;
+     
+}
+
+.footer{
+    background-color: red;
+    height: 100px;
+    text-align: center;
+}
+
+.middleContainer{
+    height: auto;
+    width: 100%;
+    background-color: ghostwhite;
+
+}
+
+.leftInContainer{
+    width: 200px;
+}
+
+.rightInContainer{
+
+}
+
+.menuButton{
+    height: 50px;
+    width: 100%;
+    text-align: center;
+}
